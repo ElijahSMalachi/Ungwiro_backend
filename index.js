@@ -48,20 +48,20 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), register);
-app.post("/posts", verifyToken, upload.single("picture"), createPost);
-app.post("/posts", verifyToken, upload.single("picture"), createPost);
-app.patch("/users/:userId/coverphoto", upload.single("coverImage"), addCoverPhoto);
-app.patch("/users/:userId/profilepicture", upload.single("picture"), updateProfilePicture);
+// app.post("/posts", verifyToken, upload.single("picture"), createPost);
+// app.post("/posts", verifyToken, upload.single("picture"), createPost);
+// app.patch("/users/:userId/coverphoto", upload.single("coverImage"), addCoverPhoto);
+// app.patch("/users/:userId/profilepicture", upload.single("picture"), updateProfilePicture);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
-app.use("/posts", postRoutes);
-app.use("/comment", commentRoutes);
-app.use("/reply", replyRoutes);
-app.use("/replytoreply", replyToReplyRoutes);
-app.use("/chat", chatRoutes);
-app.use("/message", messageRoutes);
+// app.use("/posts", postRoutes);
+// app.use("/comment", commentRoutes);
+// app.use("/reply", replyRoutes);
+// app.use("/replytoreply", replyToReplyRoutes);
+// app.use("/chat", chatRoutes);
+// app.use("/message", messageRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
