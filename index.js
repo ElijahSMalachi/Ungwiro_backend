@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import Post from "./models/Post.js";
 // import cors from "cors";
 // import dotenv from "dotenv";
 // import multer from "multer";
@@ -57,7 +58,36 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 /* ROUTES */
 // app.use("/auth", authRoutes);
 // app.use("/users", userRoutes);
-app.use("/posts", postRoutes);
+app.get("/posts", async(req,res)=>{
+  try {
+    const post= await Post
+                       .find()
+                       .populate('user')
+                       .populate({
+                        path: 'comments',
+                        options: { sort: { createdAt: 'desc' } }, // Sort comments by createdAt in descending order
+                        populate: [
+                          {
+                            path: 'reply',
+                            options: { sort: { createdAt: 'asc' } }, // Sort replies by createdAt in ascending order
+                            populate: [
+                              { 
+                                path: 'replyToReply', 
+                                options: { sort: { createdAt: 'asc' } },
+                                populate: {path: 'replyUser', model: 'User'}
+                              },
+                              { path: 'replyUser', model: 'User' }
+                            ]
+                          },
+                          { path: 'commentUser', model: 'User' }
+                        ]
+                      })
+                       .sort({createdAt: -1});
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 // app.use("/comment", commentRoutes);
 // app.use("/reply", replyRoutes);
 // app.use("/replytoreply", replyToReplyRoutes);
