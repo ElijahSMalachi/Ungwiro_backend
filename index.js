@@ -66,7 +66,7 @@ app.use("/message", messageRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL2)
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
   })
